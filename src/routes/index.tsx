@@ -4,7 +4,6 @@ import MarketRow from '#/components/dashboard/MarketRow';
 import StatCard from '#/components/dashboard/StatCard';
 import {
 	marketOverviewData,
-	marketsData,
 	statsCardsData,
 	topMoversData,
 	watchlistData,

@@ -1,9 +1,12 @@
+import type { ReactNode } from 'react';
+
 type MarketRowProps = {
 	symbol: string;
 	name: string;
 	price: string;
 	change: string;
 	compact?: boolean;
+	action?: ReactNode;
 };
 
 export default function MarketRow({
@@ -12,6 +15,7 @@ export default function MarketRow({
 	price,
 	change,
 	compact = false,
+	action,
 }: MarketRowProps) {
 	const isPositive = change.startsWith('+');
 	return (
@@ -47,6 +51,7 @@ export default function MarketRow({
 					{change}
 				</p>
 			</div>
+			{action}
 		</div>
 	);
 }
