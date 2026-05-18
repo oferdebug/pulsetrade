@@ -45,7 +45,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 		<html lang='en' suppressHydrationWarning>
 			<head>
 				{/* eslint-disable-next-line react/no-danger */}
-				{/* biome-ignore lint/security/noDangerouslySetInnerHtml: Safe inline theme hydration script */}{' '}
+				{/* biome-ignore lint/security/noDangerouslySetInnerHtml: Safe inline theme hydration script */}
 				<script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
 				<HeadContent />
 			</head>

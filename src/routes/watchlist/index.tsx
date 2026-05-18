@@ -13,7 +13,7 @@ function WatchListPage() {
 			<div>
 				<h1 className={'text-2xl font-bold text-white'}>Watchlist</h1>
 				<p className={'mt-1 text-sm text-slate-400'}>
-					Track Saved Assets And Monitor Price Movement
+					Track saved assets and monitor price movement.
 				</p>
 			</div>
 			<section
@@ -56,10 +56,10 @@ function WatchListPage() {
 						}
 					>
 						<h3 className={'text-lg font-semibold text-white'}>
-							No Symbols saved Yet
+							No symbols saved yet
 						</h3>
 						<p className={'mt-2 text-sm text-slate-400'}>
-							Add Assets from the Markets page to start tracking them here;
+							Add assets from the Markets page to start tracking them here.
 						</p>
 					</div>
 				)}
