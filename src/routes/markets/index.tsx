@@ -7,7 +7,10 @@ export const Route = createFileRoute('/markets/')({
 		query: String(search.query ?? ''),
 		sector: String(search.sector ?? ''),
 		sort: String(search.sort ?? ''),
-		page: Number(search.page ?? 1),
+		page: Math.max(
+			1,
+			Number.isFinite(Number(search.page)) ? Number(search.page) : 1,
+		),
 	}),
 	component: MarketsPage,
 });
@@ -53,7 +56,7 @@ function MarketsPage() {
 
 	const itemsPerPage = 4;
 	const totalPages = Math.ceil(sortedMarkets.length / itemsPerPage);
-	const pageintedMarkets = sortedMarkets.slice(
+	const paginatedMarkets = sortedMarkets.slice(
 		(currentPage - 1) * itemsPerPage,
 		currentPage * itemsPerPage,
 	);
@@ -125,7 +128,7 @@ function MarketsPage() {
 								})
 							}
 						>
-							Technology
+							tech
 						</button>
 
 						<button
@@ -145,13 +148,13 @@ function MarketsPage() {
 								})
 							}
 						>
-							Crypto
+							auto
 						</button>
 
 						<button
 							type='button'
 							className={`rounded-lg px-3 py-2 text-sm ${
-								search.sector === 'energy'
+								search.sector === 'entertainment'
 									? 'bg-emerald-500 text-black'
 									: 'bg-slate-900 text-slate-300'
 							}`}
@@ -165,7 +168,7 @@ function MarketsPage() {
 								})
 							}
 						>
-							Energy
+							entertainment
 						</button>
 
 						<button
@@ -191,7 +194,7 @@ function MarketsPage() {
 				</div>
 
 				<div className='mt-6 space-y-3'>
-					{pageintedMarkets.map((market) => (
+					{paginatedMarkets.map((market) => (
 						<MarketRow
 							key={market.symbol}
 							symbol={market.symbol}
