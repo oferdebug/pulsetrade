@@ -1,4 +1,17 @@
-export const marketOverviewData = [
+export type MarketItem = {
+	symbol: string;
+	name: string;
+	price: string;
+	change: string;
+	sector: 'tech' | 'auto' | 'entertainment';
+};
+
+export type StatCardItem = {
+	title: string;
+	value: string;
+	change?: string;
+};
+export const marketOverviewData: MarketItem[] = [
 	{
 		symbol: 'AAPL',
 		name: 'Apple Inc.',
@@ -22,7 +35,7 @@ export const marketOverviewData = [
 	},
 ];
 
-export const topMoversData = [
+export const topMoversData: MarketItem[] = [
 	{
 		symbol: 'META',
 		name: 'Meta Platforms',
@@ -39,7 +52,7 @@ export const topMoversData = [
 	},
 ];
 
-export const watchlistData = [
+export const watchlistData: MarketItem[] = [
 	{
 		symbol: 'AMD',
 		name: 'Advanced Micro Devices',
@@ -56,7 +69,7 @@ export const watchlistData = [
 	},
 ];
 
-export const statsCardsData = [
+export const statsCardsData: StatCardItem[] = [
 	{
 		title: 'Portfolio Value',
 		value: '$124,530',
@@ -77,7 +90,7 @@ export const statsCardsData = [
 	},
 ];
 
-export const marketsData = [
+export const marketsData: MarketItem[] = [
 	...marketOverviewData,
 	...topMoversData,
 	...watchlistData,

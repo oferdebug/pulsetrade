@@ -32,7 +32,10 @@ export default function MarketChartCard() {
 			</div>
 
 			<div className='relative h-[380px] overflow-hidden rounded-2xl border border-slate-800 bg-linear-to-b from-slate-900 to-slate-950 p-2'>
-				<div className='absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-size-[40px_40px] opacity-30' />
+				<div
+					className='absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] opacity-30'
+					style={{ backgroundSize: '40px 40px' }}
+				/>
 
 				<svg
 					viewBox='0 0 600 300'
