@@ -2,6 +2,8 @@ import { createFileRoute } from '@tanstack/react-router';
 import MarketChartCard from '#/components/dashboard/MarketChartCard';
 import MarketRow from '#/components/dashboard/MarketRow';
 import StatCard from '#/components/dashboard/StatCard';
+import Card from '#/components/ui/Card';
+import SectionHeader from '#/components/ui/SectionHeader';
 import {
 	marketOverviewData,
 	statsCardsData,
@@ -38,13 +40,13 @@ function DashboardPage() {
 				<section className='space-y-6'>
 					<MarketChartCard />
 
-					<section className='rounded-2xl border border-slate-800 bg-slate-950 p-5'>
-						<div className='mb-4 flex items-center justify-between'>
-							<h2 className='text-lg font-semibold text-white'>
-								Market Overview
-							</h2>
-							<span className='text-sm text-slate-400'>Live preview</span>
-						</div>
+					<Card>
+						<SectionHeader
+							title='Market Overview'
+							rightSlot={
+								<span className='text-sm text-slate-400'>Live preview</span>
+							}
+						/>
 
 						<div className='space-y-3'>
 							{marketOverviewData.map((market) => (
@@ -57,16 +59,15 @@ function DashboardPage() {
 								/>
 							))}
 						</div>
-					</section>
+					</Card>
 				</section>
 
 				<div className='space-y-6'>
-					<section className='rounded-2xl border border-slate-800 bg-slate-950 p-5'>
-						<div className='mb-4 flex items-center justify-between'>
-							<h2 className='text-lg font-semibold text-white'>Top Movers</h2>
-							<span className='text-sm text-slate-400'>Today</span>
-						</div>
-
+					<Card>
+						<SectionHeader
+							title='Top Movers'
+							rightSlot={<span className='text-sm text-slate-400'>Today</span>}
+						/>
 						<div className='space-y-3'>
 							{topMoversData.map((market) => (
 								<MarketRow
@@ -79,12 +80,10 @@ function DashboardPage() {
 								/>
 							))}
 						</div>
-					</section>
+					</Card>
 
-					<section className='rounded-2xl border border-slate-800 bg-slate-950 p-5'>
-						<h2 className='mb-4 text-lg font-semibold text-white'>
-							Watchlist Preview
-						</h2>
+					<Card>
+						<SectionHeader title='Watchlist Preview' />
 
 						<div className='space-y-3'>
 							{watchlistData.map((market) => (
@@ -98,7 +97,7 @@ function DashboardPage() {
 								/>
 							))}
 						</div>
-					</section>
+					</Card>
 				</div>
 			</div>
 		</div>

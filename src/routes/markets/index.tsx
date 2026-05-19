@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import MarketRow from '#/components/dashboard/MarketRow';
+import Button from '#/components/ui/Button';
 import { marketsData } from '#/data/mockMarkets';
 
 export const Route = createFileRoute('/markets/')({
@@ -111,13 +112,8 @@ function MarketsPage() {
 					</div>
 
 					<div className='flex flex-wrap items-center gap-2'>
-						<button
-							type='button'
-							className={`rounded-lg px-3 py-2 text-sm ${
-								search.sector === 'tech'
-									? 'bg-emerald-500 text-black'
-									: 'bg-slate-900 text-slate-300'
-							}`}
+						<Button
+							variant={search.sector === 'tech' ? 'success' : 'ghost'}
 							onClick={() =>
 								navigate({
 									search: (prev) => ({
@@ -128,56 +124,41 @@ function MarketsPage() {
 								})
 							}
 						>
-							tech
-						</button>
+							Technology
+						</Button>
 
-						<button
-							type='button'
-							className={`rounded-lg px-3 py-2 text-sm ${
-								search.sector === 'crypto'
-									? 'bg-emerald-500 text-black'
-									: 'bg-slate-900 text-slate-300'
-							}`}
+						<Button
+							variant={search.sector === 'auto' ? 'success' : 'ghost'}
 							onClick={() =>
 								navigate({
 									search: (prev) => ({
 										...prev,
-										sector: 'crypto',
+										sector: 'auto',
 										page: 1,
 									}),
 								})
 							}
 						>
-							auto
-						</button>
+							Auto
+						</Button>
 
-						<button
-							type='button'
-							className={`rounded-lg px-3 py-2 text-sm ${
-								search.sector === 'entertainment'
-									? 'bg-emerald-500 text-black'
-									: 'bg-slate-900 text-slate-300'
-							}`}
+						<Button
+							variant={search.sector === 'entertainment' ? 'success' : 'ghost'}
 							onClick={() =>
 								navigate({
 									search: (prev) => ({
 										...prev,
-										sector: 'energy',
+										sector: 'entertainment',
 										page: 1,
 									}),
 								})
 							}
 						>
-							entertainment
-						</button>
+							Entertainment
+						</Button>
 
-						<button
-							type='button'
-							className={`rounded-lg px-3 py-2 text-sm ${
-								!search.sector
-									? 'bg-emerald-500 text-black'
-									: 'bg-slate-900 text-slate-300'
-							}`}
+						<Button
+							variant={!search.sector ? 'success' : 'ghost'}
 							onClick={() =>
 								navigate({
 									search: (prev) => ({
@@ -189,7 +170,7 @@ function MarketsPage() {
 							}
 						>
 							All
-						</button>
+						</Button>
 					</div>
 				</div>
 
@@ -204,51 +185,47 @@ function MarketsPage() {
 						/>
 					))}
 				</div>
+
+				<div className='flex items-center gap-3'>
+					<Button
+						disabled={currentPage === 1}
+						variant='ghost'
+						className={currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}
+						onClick={() =>
+							navigate({
+								search: (prev) => ({
+									...prev,
+									page: Math.max(1, prev.page - 1),
+								}),
+							})
+						}
+					>
+						Previous
+					</Button>
+
+					<Button
+						disabled={currentPage >= totalPages}
+						variant='ghost'
+						className={
+							currentPage >= totalPages ? 'cursor-not-allowed opacity-50' : ''
+						}
+						onClick={() =>
+							navigate({
+								search: (prev) => ({
+									...prev,
+									page: prev.page + 1,
+								}),
+							})
+						}
+					>
+						Next
+					</Button>
+
+					<p className='text-sm text-slate-400'>
+						Page {currentPage} of {Math.max(1, totalPages)}
+					</p>
+				</div>
 			</section>
-
-			<div className='flex items-center gap-3'>
-				<button
-					disabled={currentPage === 1}
-					type='button'
-					className={`rounded-lg px-4 py-2 text-sm ${
-						currentPage === 1
-							? 'cursor-not-allowed bg-slate-800 text-slate-500'
-							: 'bg-slate-900 text-white'
-					}`}
-					onClick={() =>
-						navigate({
-							search: (prev) => ({
-								...prev,
-								page: Math.max(1, prev.page - 1),
-							}),
-						})
-					}
-				>
-					Previous
-				</button>
-
-				<button
-					disabled={currentPage >= totalPages}
-					type='button'
-					className={`rounded-lg px-4 py-2 text-sm ${
-						currentPage >= totalPages
-							? 'cursor-not-allowed bg-slate-800 text-slate-500'
-							: 'bg-slate-900 text-white'
-					}`}
-					onClick={() =>
-						navigate({
-							search: (prev) => ({
-								...prev,
-								page: prev.page + 1,
-							}),
-						})
-					}
-				>
-					Next
-				</button>
-
-				<p className='text-sm text-slate-400'>Page {currentPage}</p>
-			</div>
 		</div>
 	);
 }
