@@ -1,7 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import MarketRow from '#/components/dashboard/MarketRow';
 import Button from '#/components/ui/Button';
 import { marketsData } from '#/data/mockMarkets';
+import { useWatchlistStore } from '#/store/watchlistStore';
 
 export const Route = createFileRoute('/markets/')({
 	validateSearch: (search) => ({
@@ -34,6 +36,9 @@ function MarketsPage() {
 
 		return matchesQuery && matchesSector;
 	});
+
+	const addToWatchlist = useWatchlistStore((state) => state.addToWatchlist);
+	const isInWatchlist = useWatchlistStore((state) => state.isInWatchlist);
 
 	const sortedMarkets = [...filteredMarkets].sort((a, b) => {
 		if (search.sort === 'symbol') {
@@ -182,6 +187,23 @@ function MarketsPage() {
 							name={market.name}
 							price={market.price}
 							change={market.change}
+							action={
+								isInWatchlist(market.symbol) ? (
+									<Button variant='ghost' disabled>
+										Saved
+									</Button>
+								) : (
+									<Button
+										variant='primary'
+										onClick={() => {
+											addToWatchlist(market);
+											toast.success(`${market.symbol} added to watchlist`);
+										}}
+									>
+										Add
+									</Button>
+								)
+							}
 						/>
 					))}
 				</div>
