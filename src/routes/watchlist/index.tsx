@@ -1,13 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import MarketRow from '#/components/dashboard/MarketRow';
-import { watchlistData } from '#/data/mockMarkets';
+import Button from '#/components/ui/Button';
+import { useWatchlistStore } from '#/store/watchlistStore';
 
 export const Route = createFileRoute('/watchlist/')({
 	component: WatchListPage,
 });
 
 function WatchListPage() {
-	const hasWatchlistItems = watchlistData.length > 0;
+	const items = useWatchlistStore((state) => state.items);
+	const removeFromWatchlist = useWatchlistStore(
+		(state) => state.removeFromWatchlist,
+	);
+	const hasWatchlistItems = items.length > 0;
 	return (
 		<div className={'space-y-7'}>
 			<div>
@@ -25,13 +31,13 @@ function WatchListPage() {
 							Saved Symbols
 						</h2>
 						<p className={'mt-1 text-sm text-slate-400'}>
-							{watchlistData.length} assets in your Watchlist
+							{items.length} assets in your Watchlist
 						</p>
 					</div>
 				</div>
 				{hasWatchlistItems ? (
 					<div className={'space-y-3'}>
-						{watchlistData.map((market) => (
+						{items.map((market) => (
 							<MarketRow
 								key={market.symbol}
 								symbol={market.symbol}
@@ -39,12 +45,16 @@ function WatchListPage() {
 								price={market.price}
 								change={market.change}
 								action={
-									<button
-										type='button'
-										className='rounded-lg bg-red-500/10 px-3 py-1 text-xs text-red-400'
+									<Button
+										variant='danger'
+										className={'px-3 py-1 text-xs'}
+										onClick={() => {
+											removeFromWatchlist(market.symbol);
+											toast.success(`${market.symbol} remove from watchlist`);
+										}}
 									>
 										Remove
-									</button>
+									</Button>
 								}
 							/>
 						))}

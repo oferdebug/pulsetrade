@@ -45,15 +45,19 @@ export default function MarketRow({
 				</p>
 			</div>
 
-			<div className='text-right'>
-				<p className='font-semibold text-white'>{price}</p>
-				<p
-					className={`font-semibold ${isPositive ? 'text-green-400' : 'text-red-400'}`}
-				>
-					{change}
-				</p>
+			<div
+				className={'flex shrink-0 items-center gap-3 self-center text-right'}
+			>
+				<div className={'flex min-w-[72px] flex-col items-end'}>
+					<p className={'font-semibold text-white'}>{price}</p>
+					<p
+						className={`font-semibold ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`}
+					>
+						{change}
+					</p>
+				</div>
+				{action ? <div className={'shrink-0'}>{action}</div> : null}
 			</div>
-			{action}
 		</div>
 	);
 }

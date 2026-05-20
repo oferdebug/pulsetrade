@@ -1,10 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
 import MarketRow from '#/components/dashboard/MarketRow';
 import StatCard from '#/components/dashboard/StatCard';
+import Card from '#/components/ui/Card';
+import SectionHeader from '#/components/ui/SectionHeader';
 
 const portfolioStats = [
-	{ title: 'Total Balance', value: '86,320', change: '+7.8%' },
-	{ title: 'Invsted', value: '62,450' },
+	{ title: 'Total Balance', value: '$86,320', change: '+7.8%' },
+	{ title: 'Invested', value: '$62,450' },
 	{ title: 'Cash', value: '$23,870' },
 	{ title: 'Holdings', value: '7' },
 ];
@@ -26,15 +28,15 @@ export const Route = createFileRoute('/portfolio/')({
 
 function PortfolioPage() {
 	return (
-		<div className={'space-y-8'}>
+		<div className='space-y-8'>
 			<div>
-				<h1 className={'text-2xl font-bold text-white'}>portfolio</h1>
-				<p className={'mt-1 text-sm text-slate-400'}>
+				<h1 className='text-2xl font-bold text-white'>Portfolio</h1>
+				<p className='mt-1 text-sm text-slate-400'>
 					Track simulated holdings, allocation and portfolio performance.
 				</p>
 			</div>
 
-			<section className={'grid gap-4 md:grdi-cols-2 xl:grid-cols-4'}>
+			<section className='grid gap-4 md:grid-cols-2 xl:grid-cols-4'>
 				{portfolioStats.map((stat) => (
 					<StatCard
 						key={stat.title}
@@ -45,18 +47,13 @@ function PortfolioPage() {
 				))}
 			</section>
 
-			<section
-				className={'rounded-2xl border border-slate-800 bg-slate-950 p-5'}
-			>
-				<div className={'mb-4 flex itmes-center justify-between'}>
-					<div>
-						<h2 className={'text-lg font-smeibold text-white'}>Holdings</h2>
-						<p className={'mt-1 text-sm text-slate-400'}>
-							Your Simulated portfolio positions
-						</p>
-					</div>
-				</div>
-				<div className={'space-y-4'}>
+			<Card>
+				<SectionHeader
+					title='Holdings'
+					description='Your simulated portfolio positions.'
+				/>
+
+				<div className='space-y-4'>
 					{holdings.map((holding) => (
 						<MarketRow
 							key={holding.symbol}
@@ -67,9 +64,7 @@ function PortfolioPage() {
 						/>
 					))}
 				</div>
-			</section>
+			</Card>
 		</div>
 	);
 }
-
-export default PortfolioPage;
