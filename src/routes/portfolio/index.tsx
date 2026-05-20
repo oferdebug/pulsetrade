@@ -3,8 +3,8 @@ import MarketRow from '#/components/dashboard/MarketRow';
 import StatCard from '#/components/dashboard/StatCard';
 
 const portfolioStats = [
-	{ title: 'Total Balance', value: '86,320', change: '+7.8%' },
-	{ title: 'Invsted', value: '62,450' },
+	{ title: 'Total Balance', value: '$86,320', change: '+7.8%' },
+	{ title: 'Invested', value: '$62,450' },
 	{ title: 'Cash', value: '$23,870' },
 	{ title: 'Holdings', value: '7' },
 ];
@@ -28,13 +28,13 @@ function PortfolioPage() {
 	return (
 		<div className={'space-y-8'}>
 			<div>
-				<h1 className={'text-2xl font-bold text-white'}>portfolio</h1>
+				<h1 className={'text-2xl font-bold text-white'}>Portfolio</h1>
 				<p className={'mt-1 text-sm text-slate-400'}>
 					Track simulated holdings, allocation and portfolio performance.
 				</p>
 			</div>
 
-			<section className={'grid gap-4 md:grdi-cols-2 xl:grid-cols-4'}>
+			<section className={'grid gap-4 md:grid-cols-2 xl:grid-cols-4'}>
 				{portfolioStats.map((stat) => (
 					<StatCard
 						key={stat.title}
@@ -48,9 +48,9 @@ function PortfolioPage() {
 			<section
 				className={'rounded-2xl border border-slate-800 bg-slate-950 p-5'}
 			>
-				<div className={'mb-4 flex itmes-center justify-between'}>
+				<div className={'mb-4 flex items-center justify-between'}>
 					<div>
-						<h2 className={'text-lg font-smeibold text-white'}>Holdings</h2>
+						<h2 className={'text-lg font-semibold text-white'}>Holdings</h2>
 						<p className={'mt-1 text-sm text-slate-400'}>
 							Your Simulated portfolio positions
 						</p>

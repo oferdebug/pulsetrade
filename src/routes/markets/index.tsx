@@ -190,7 +190,6 @@ function MarketsPage() {
 					<Button
 						disabled={currentPage === 1}
 						variant='ghost'
-						className={currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}
 						onClick={() =>
 							navigate({
 								search: (prev) => ({
@@ -206,9 +205,6 @@ function MarketsPage() {
 					<Button
 						disabled={currentPage >= totalPages}
 						variant='ghost'
-						className={
-							currentPage >= totalPages ? 'cursor-not-allowed opacity-50' : ''
-						}
 						onClick={() =>
 							navigate({
 								search: (prev) => ({
