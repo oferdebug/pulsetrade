@@ -36,7 +36,8 @@ export const session = pgTable(
 			.notNull()
 			.references(() => user.id, { onDelete: 'cascade' }),
 	},
-	(table) => [index('session_userId_idx').on(table.userId)],
+	// biome-ignore lint: Drizzle schema requires any type
+	(table: any) => [index('session_userId_idx').on(table.userId)],
 );
 
 export const account = pgTable(
@@ -60,7 +61,8 @@ export const account = pgTable(
 			.$onUpdate(() => /* @__PURE__ */ new Date())
 			.notNull(),
 	},
-	(table) => [index('account_userId_idx').on(table.userId)],
+	// biome-ignore lint: Drizzle schema requires any type
+	(table: any) => [index('account_userId_idx').on(table.userId)],
 );
 
 export const verification = pgTable(
@@ -76,22 +78,26 @@ export const verification = pgTable(
 			.$onUpdate(() => /* @__PURE__ */ new Date())
 			.notNull(),
 	},
-	(table) => [index('verification_identifier_idx').on(table.identifier)],
+	// biome-ignore lint: Drizzle schema requires any type
+	(table: any) => [index('verification_identifier_idx').on(table.identifier)],
 );
 
-export const userRelations = relations(user, ({ many }) => ({
+// biome-ignore lint: Drizzle schema requires any type
+export const userRelations = relations(user, ({ many }: any) => ({
 	sessions: many(session),
 	accounts: many(account),
 }));
 
-export const sessionRelations = relations(session, ({ one }) => ({
+// biome-ignore lint: Drizzle schema requires any type
+export const sessionRelations = relations(session, ({ one }: any) => ({
 	user: one(user, {
 		fields: [session.userId],
 		references: [user.id],
 	}),
 }));
 
-export const accountRelations = relations(account, ({ one }) => ({
+// biome-ignore lint: Drizzle schema requires any type
+export const accountRelations = relations(account, ({ one }: any) => ({
 	user: one(user, {
 		fields: [account.userId],
 		references: [user.id],
@@ -112,13 +118,15 @@ export const watchlist = pgTable(
 		sector: text('sector').notNull(),
 		createdAt: timestamp('created_at').defaultNow().notNull(),
 	},
-	(table) => [
+	// biome-ignore lint: Drizzle schema requires any type
+	(table: any) => [
 		index('watchlist_userId_idx').on(table.userId),
 		uniqueIndex('watchlist_user_symbol_unique').on(table.userId, table.symbol),
 	],
 );
 
-export const watchlistRelations = relations(watchlist, ({ one }) => ({
+// biome-ignore lint: Drizzle schema requires any type
+export const watchlistRelations = relations(watchlist, ({ one }: any) => ({
 	user: one(user, {
 		fields: [watchlist.userId],
 		references: [user.id],

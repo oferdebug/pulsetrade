@@ -15,6 +15,7 @@
 			"!src/routeTree.gen.ts",
 			"!src/styles.css",
 			"!src/routes/demo/**/*",
+			"!src/_demo_disabled/**/*",
 			"!src/components/demo.*",
 			"!src/hooks/demo.*",
 			"!src/data/demo-*"

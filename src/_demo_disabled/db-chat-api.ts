@@ -45,7 +45,7 @@ const sendMessage = (message: { user: string; text: string }) => {
   })
 }
 
-export const Route = createFileRoute('/demo/db-chat-api')({
+export const Route = createFileRoute('/_demo/db-chat-api')({
   server: {
     handlers: {
       GET: () => {
