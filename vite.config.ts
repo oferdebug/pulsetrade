@@ -8,7 +8,11 @@ import { defineConfig } from 'vite';
 const config = defineConfig({
 	resolve: { tsconfigPaths: true },
 	server: {
-		allowedHosts: ['ommatidial-polly-aoristically.ngrok-free.dev'],
+		allowedHosts: [
+			'localhost',
+			'127.0.0.1',
+			'ommatidial-polly-aoristically.ngrok-free.dev',
+		],
 	},
 	plugins: [devtools(), netlify(), tailwindcss(), tanstackStart(), viteReact()],
 });

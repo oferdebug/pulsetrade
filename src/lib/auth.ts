@@ -2,25 +2,18 @@ import { dash } from '@better-auth/infra';
 import { betterAuth } from 'better-auth';
 import { tanstackStartCookies } from 'better-auth/tanstack-start';
 import { config } from 'dotenv';
-import { Pool } from 'pg';
+import { pool } from '#/db';
 
 config({ path: ['.env.local', '.env'], override: true });
-const databaseUrl = process.env.DATABASE_URL;
 const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
-
-if (!databaseUrl) {
-	throw new Error('DATABASE_URL is required');
-}
 
 if (!googleClientId || !googleClientSecret) {
 	throw new Error('GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are required');
 }
 
 export const auth = betterAuth({
-	database: new Pool({
-		connectionString: databaseUrl,
-	}),
+	database: pool,
 	emailAndPassword: {
 		enabled: true,
 	},

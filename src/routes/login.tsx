@@ -42,7 +42,8 @@ function LoginPage() {
 			}
 
 			await navigate({ to: '/' });
-		} catch {
+		} catch (error) {
+			console.error('Authentication Failed', error);
 			setError('Something went wrong. Please try again.');
 		} finally {
 			setIsLoading(false);
@@ -189,10 +190,15 @@ function LoginPage() {
 						<button
 							type='button'
 							onClick={async () => {
-								await authClient.signIn.social({
-									provider: 'google',
-									callbackURL: '/',
-								});
+								try {
+									await authClient.signIn.social({
+										provider: 'google',
+										callbackURL: '/',
+									});
+								} catch (error) {
+									console.error('Google Sign In Failed:', error);
+									setError('Failed to Sign In With Google');
+								}
 							}}
 							className={
 								'w-full rounded-xl border border-slate-700 bg-white px-4 py-3 text-sm font-medium text-slate-900 transition hover:bg-slate-100'
