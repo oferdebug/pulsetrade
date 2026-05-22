@@ -6,9 +6,15 @@ import { Pool } from 'pg';
 
 config({ path: ['.env.local', '.env'], override: true });
 const databaseUrl = process.env.DATABASE_URL;
+const googleClientId = process.env.GOOGLE_CLIENT_ID;
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
 if (!databaseUrl) {
 	throw new Error('DATABASE_URL is required');
+}
+
+if (!googleClientId || !googleClientSecret) {
+	throw new Error('GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are required');
 }
 
 export const auth = betterAuth({
@@ -18,5 +24,11 @@ export const auth = betterAuth({
 	emailAndPassword: {
 		enabled: true,
 	},
-	plugins: [tanstackStartCookies(), dash()],
+	socialProviders: {
+		google: {
+			clientId: googleClientId,
+			clientSecret: googleClientSecret,
+		},
+	},
+	plugins: [dash(), tanstackStartCookies()],
 });

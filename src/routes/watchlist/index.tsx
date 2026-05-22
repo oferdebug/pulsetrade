@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { useCallback } from 'react';
 import { toast } from 'sonner';
 import MarketRow from '#/components/dashboard/MarketRow';
 import Button from '#/components/ui/Button';
@@ -11,8 +12,9 @@ export const Route = createFileRoute('/watchlist/')({
 function WatchListPage() {
 	const items = useWatchlistStore((state) => state.items);
 	const removeFromWatchlist = useWatchlistStore(
-		(state) => state.removeFromWatchlist,
+		useCallback((state) => state.removeFromWatchlist, []),
 	);
+
 	const hasWatchlistItems = items.length > 0;
 	return (
 		<div className={'space-y-7'}>
