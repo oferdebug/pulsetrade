@@ -208,10 +208,20 @@ function LoginPage() {
 						</button>
 						<button
 							type='button'
-							disabled
+							onClick={async () => {
+								try {
+									await authClient.signIn.social({
+										provider: 'github',
+										callbackURL: '/',
+									});
+								} catch (error) {
+									console.error('Github Sign In Failed:', error);
+									setError('Failed to Sign In With Github');
+								}
+							}}
 							className='w-full rounded-xl border border-slate-700 px-4 py-3 text-sm font-medium text-slate-400 opacity-60'
 						>
-							Continue with GitHub — coming next
+							Continue with GitHub
 						</button>
 					</div>
 

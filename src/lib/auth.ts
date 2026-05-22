@@ -12,6 +12,11 @@ if (!googleClientId || !googleClientSecret) {
 	throw new Error('GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are required');
 }
 
+const githubClientId = process.env.GITHUB_CLIENT_ID;
+const githubClientSecret = process.env.GITHUB_CLIENT_SECRET;
+if (!githubClientId || !githubClientSecret) {
+	throw new Error('GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET are required');
+}
 export const auth = betterAuth({
 	database: pool,
 	emailAndPassword: {
@@ -21,6 +26,10 @@ export const auth = betterAuth({
 		google: {
 			clientId: googleClientId,
 			clientSecret: googleClientSecret,
+		},
+		github: {
+			clientId: githubClientId,
+			clientSecret: githubClientSecret,
 		},
 	},
 	plugins: [dash(), tanstackStartCookies()],
