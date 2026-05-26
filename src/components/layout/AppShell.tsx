@@ -47,13 +47,15 @@ export default function AppShell({ children }: AppShellProps) {
 	}
 
 	return (
-		<div className={'min-h-screen bg-slate-950 text-slate-100'}>
+		<div className={'min-h-screen bg-[#020617] text-slate-100'}>
 			<div className={'flex min-h-screen'}>
-				<AppSidebar />
+				<div className={'hidden xl:block'}>
+					<AppSidebar />
+				</div>
 				<div className={'flex min-w-0 flex-1 flex-col'}>
 					<AppTopbar />
-					<main className={'flex-1 p-6'}>
-						<div className='mx-auto w-full max-w-7xl'>{children}</div>
+					<main className={'flex-1 overflow-x-hidden px-6 pb-8 pt-6 lg:px-10'}>
+						<div className={'mx-auto w-full max-w-[1600px]'}>{children}</div>
 					</main>
 				</div>
 			</div>

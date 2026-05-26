@@ -1,3 +1,4 @@
+import { TrendingDown, TrendingUp } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 type MarketRowProps = {
@@ -18,45 +19,30 @@ export default function MarketRow({
 	action,
 }: MarketRowProps) {
 	const isPositive = change.startsWith('+');
+	const TrendIcon = isPositive ? TrendingUp : TrendingDown;
+
 	return (
 		<div
-			className={`flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900 ${
-				compact ? 'px-3 py-2' : 'px-4 py-3'
+			className={`flex items-center justify-between rounded-2xl border border-white/6 bg-slate-900/70 transition hover:bg-slate-800/60 ${
+				compact ? 'px-4 py-3' : 'px-5 py-4'
 			}`}
 		>
 			<div>
-				<h3
-					className={
-						compact
-							? 'text-sm font-semibold text-white'
-							: 'font-semibold text-white'
-					}
-				>
-					{symbol}
-				</h3>
-				<p
-					className={
-						compact
-							? 'truncate text-xs text-slate-400'
-							: 'truncate text-sm text-slate-300'
-					}
-				>
-					{name}
-				</p>
+				<h3 className='text-sm font-bold tracking-wide text-white'>{symbol}</h3>
+				<p className='mt-0.5 truncate text-xs text-slate-500'>{name}</p>
 			</div>
 
-			<div
-				className={'flex shrink-0 items-center gap-3 self-center text-right'}
-			>
-				<div className={'flex min-w-[72px] flex-col items-end'}>
-					<p className={'font-semibold text-white'}>{price}</p>
-					<p
-						className={`font-semibold ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`}
+			<div className='flex shrink-0 items-center gap-3 self-center'>
+				<div className='flex flex-col items-end'>
+					<p className='text-sm font-bold tabular-nums text-white'>{price}</p>
+					<span
+						className={`mt-0.5 flex items-center gap-1 text-xs font-semibold tabular-nums ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`}
 					>
+						<TrendIcon size={10} aria-hidden='true' />
 						{change}
-					</p>
+					</span>
 				</div>
-				{action ? <div className={'shrink-0'}>{action}</div> : null}
+				{action ? <div className='shrink-0'>{action}</div> : null}
 			</div>
 		</div>
 	);

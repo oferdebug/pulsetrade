@@ -12,16 +12,18 @@ export default function SectionHeader({
 	rightSlot,
 }: SectionHeaderProps) {
 	return (
-		<div className='mb-4 flex items-center justify-between'>
+		<div className='mb-5 flex items-start justify-between gap-4'>
 			<div>
-				<h2 className='text-lg font-semibold text-white'>{title}</h2>
+				<h2 className='text-base font-semibold tracking-tight text-white'>
+					{title}
+				</h2>
 
 				{description ? (
-					<p className='mt-1 text-sm text-slate-400'>{description}</p>
+					<p className='mt-1 text-sm leading-6 text-slate-500'>{description}</p>
 				) : null}
 			</div>
 
-			{rightSlot ? <div>{rightSlot}</div> : null}
+			{rightSlot ? <div className='shrink-0'>{rightSlot}</div> : null}
 		</div>
 	);
 }
