@@ -5,7 +5,7 @@ import {
 	alerts,
 	userAlertPrefs,
 } from '#/db/schema';
-import { createAlert } from './server';
+import { createAlert, listAlerts, quickCreateAlertForSymbol } from './server';
 
 describe('alerts schema', () => {
 	it('exports required alerts tables', () => {
@@ -63,6 +63,26 @@ describe('createAlert', () => {
 		expect(result.alert.context).toStrictEqual({
 			plan: 'pro',
 			activeAlerts: 99,
+		});
+	});
+
+	describe('listAlerts', () => {
+		it('returns an array for a user', async () => {
+			const result = await listAlerts({ userId: 'user-1' });
+			expect(Array.isArray(result)).toBe(true);
+		});
+	});
+	describe('quickCreateAlertForSymbol', () => {
+		it('creates a default price-above alert from symbol', async () => {
+			const result = await quickCreateAlertForSymbol({
+				symbol: 'TSLA',
+				user: { id: 'u1', plan: 'pro' },
+			});
+			expect(result.ok).toBe(true);
+			if (!result.ok) throw new Error('expected ok');
+			expect(result.alert.symbol).toBe('TSLA');
+			expect(result.alert.triggerType).toBe('price');
+			expect(result.alert.channels).toStrictEqual(['email']);
 		});
 	});
 });

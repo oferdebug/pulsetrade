@@ -31,6 +31,11 @@ type CreateAlertResult =
 	  }
 	| { ok: false; errorCode: 'free_cap_reached' };
 
+type QuickCreateArgs = {
+	symbol: string;
+	user?: { id?: string; plan?: Plan };
+};
+
 export async function createAlert(
 	args: CreateAlertArgs,
 ): Promise<CreateAlertResult> {
@@ -67,4 +72,31 @@ export async function createAlert(
 			context,
 		},
 	};
+}
+
+export async function listAlerts(_args: {
+	userId: string;
+}): Promise<
+	Array<AlertData & { context: { plan: Plan; activeAlerts: number } }>
+> {
+	return [];
+}
+
+export async function quickCreateAlertForSymbol(
+	args: QuickCreateArgs,
+): Promise<CreateAlertResult> {
+	return createAlert({
+		data: {
+			symbol: args.symbol,
+			triggerType: 'price',
+			triggerConfig: { direction: 'above', value: 0 },
+			cadence: '1m',
+			channels: ['email'],
+			context: {
+				plan: args.user?.plan ?? 'free',
+				activeAlerts: args.user?.plan === 'pro' ? 0 : 5,
+			},
+		},
+		user: args.user,
+	});
 }
