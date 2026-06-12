@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import {
 	BarChart2,
 	DollarSign,
@@ -7,8 +7,8 @@ import {
 	TrendingUp,
 	Wallet,
 } from 'lucide-react';
-import Sparkline from '#/components/ui/Sparkline';
 import StatCard from '#/components/dashboard/StatCard';
+import Sparkline from '#/components/ui/Sparkline';
 
 const holdings = [
 	{
@@ -60,7 +60,12 @@ function DonutChart() {
 	const slices = holdings.map((h, i) => {
 		const pct = h.value / totalValue;
 		const len = pct * (circumference - holdings.length * gap);
-		const slice = { offset, len, color: DONUT_COLORS[i % DONUT_COLORS.length], symbol: h.symbol };
+		const slice = {
+			offset,
+			len,
+			color: DONUT_COLORS[i % DONUT_COLORS.length],
+			symbol: h.symbol,
+		};
 		offset += len + gap;
 		return slice;
 	});
@@ -82,7 +87,15 @@ function DonutChart() {
 					style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }}
 				/>
 			))}
-			<text x={cx} y={cy - 4} textAnchor='middle' className='fill-white text-[9px] font-bold' fontSize='9' fontWeight='bold' fill='white'>
+			<text
+				x={cx}
+				y={cy - 4}
+				textAnchor='middle'
+				className='fill-white text-[9px] font-bold'
+				fontSize='9'
+				fontWeight='bold'
+				fill='white'
+			>
 				{((holdings[0].value / totalValue) * 100).toFixed(0)}%
 			</text>
 			<text x={cx} y={cy + 8} textAnchor='middle' fontSize='7' fill='#64748b'>
@@ -93,9 +106,23 @@ function DonutChart() {
 }
 
 const portfolioStats = [
-	{ title: 'Total Value', value: `$${totalValue.toLocaleString()}`, change: `${isPnLPos ? '+' : ''}${totalPnLPct}%`, icon: Wallet },
-	{ title: 'Invested', value: `$${totalCost.toLocaleString()}`, icon: BarChart2 },
-	{ title: 'P&L', value: `${isPnLPos ? '+' : ''}$${Math.abs(totalPnL).toLocaleString()}`, change: `${isPnLPos ? '+' : ''}${totalPnLPct}%`, icon: TrendingUp },
+	{
+		title: 'Total Value',
+		value: `$${totalValue.toLocaleString()}`,
+		change: `${isPnLPos ? '+' : ''}${totalPnLPct}%`,
+		icon: Wallet,
+	},
+	{
+		title: 'Invested',
+		value: `$${totalCost.toLocaleString()}`,
+		icon: BarChart2,
+	},
+	{
+		title: 'P&L',
+		value: `${isPnLPos ? '+' : ''}$${Math.abs(totalPnL).toLocaleString()}`,
+		change: `${isPnLPos ? '+' : ''}${totalPnLPct}%`,
+		icon: TrendingUp,
+	},
 	{ title: 'Holdings', value: String(holdings.length), icon: PieChart },
 ];
 
@@ -129,14 +156,21 @@ function PortfolioPage() {
 				<div className='mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'>
 					<div>
 						<h2 className='text-base font-semibold text-white'>Holdings</h2>
-						<p className='mt-0.5 text-xs text-slate-500'>Your simulated portfolio positions.</p>
+						<p className='mt-0.5 text-xs text-slate-500'>
+							Your simulated portfolio positions.
+						</p>
 					</div>
 					<div className='flex items-center gap-6'>
 						<DonutChart />
 						<div className='space-y-2'>
 							{holdings.map((h, i) => (
 								<div key={h.symbol} className='flex items-center gap-2'>
-									<span className='h-2 w-2 rounded-full' style={{ background: DONUT_COLORS[i % DONUT_COLORS.length] }} />
+									<span
+										className='h-2 w-2 rounded-full'
+										style={{
+											background: DONUT_COLORS[i % DONUT_COLORS.length],
+										}}
+									/>
 									<p className='text-xs text-slate-400'>{h.symbol}</p>
 									<p className='text-xs font-semibold tabular-nums text-white'>
 										{((h.value / totalValue) * 100).toFixed(1)}%
@@ -154,7 +188,9 @@ function PortfolioPage() {
 						const pnl = holding.value - holding.cost;
 						const pnlPct = ((pnl / holding.cost) * 100).toFixed(2);
 						const isPnlPos = pnl >= 0;
-						const allocationPct = Math.round((holding.value / totalValue) * 100);
+						const allocationPct = Math.round(
+							(holding.value / totalValue) * 100,
+						);
 
 						return (
 							<div key={holding.symbol} className='space-y-1.5'>
@@ -166,31 +202,53 @@ function PortfolioPage() {
 									<div className='flex items-center gap-3'>
 										<div
 											className='flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-xs font-bold text-white'
-											style={{ background: `${DONUT_COLORS[i % DONUT_COLORS.length]}22`, color: DONUT_COLORS[i % DONUT_COLORS.length] }}
+											style={{
+												background: `${DONUT_COLORS[i % DONUT_COLORS.length]}22`,
+												color: DONUT_COLORS[i % DONUT_COLORS.length],
+											}}
 										>
 											{holding.symbol.slice(0, 2)}
 										</div>
 										<div>
-											<p className='font-semibold text-white'>{holding.symbol}</p>
-											<p className='text-xs text-slate-500'>{holding.shares} shares · {holding.name}</p>
+											<p className='font-semibold text-white'>
+												{holding.symbol}
+											</p>
+											<p className='text-xs text-slate-500'>
+												{holding.shares} shares · {holding.name}
+											</p>
 										</div>
 									</div>
 
 									<div className='flex shrink-0 items-center gap-4'>
 										{holding.sparkline && (
-											<Sparkline data={holding.sparkline} positive={isPos} width={56} height={24} />
+											<Sparkline
+												data={holding.sparkline}
+												positive={isPos}
+												width={56}
+												height={24}
+											/>
 										)}
 										<div className='text-right'>
-											<p className='font-semibold tabular-nums text-white'>{holding.price}</p>
-											<span className={`flex items-center justify-end gap-1 text-xs font-semibold tabular-nums ${isPos ? 'text-emerald-400' : 'text-rose-400'}`}>
+											<p className='font-semibold tabular-nums text-white'>
+												{holding.price}
+											</p>
+											<span
+												className={`flex items-center justify-end gap-1 text-xs font-semibold tabular-nums ${isPos ? 'text-emerald-400' : 'text-rose-400'}`}
+											>
 												<TrendIcon size={11} aria-hidden='true' />
 												{holding.change}
 											</span>
 										</div>
 										<div className='hidden text-right sm:block'>
-											<p className='font-semibold tabular-nums text-white'>${holding.value.toLocaleString()}</p>
-											<span className={`text-xs font-semibold tabular-nums ${isPnlPos ? 'text-emerald-400' : 'text-rose-400'}`}>
-												{isPnlPos ? '+' : ''}${pnl.toLocaleString()} ({isPnlPos ? '+' : ''}{pnlPct}%)
+											<p className='font-semibold tabular-nums text-white'>
+												${holding.value.toLocaleString()}
+											</p>
+											<span
+												className={`text-xs font-semibold tabular-nums ${isPnlPos ? 'text-emerald-400' : 'text-rose-400'}`}
+											>
+												{isPnlPos ? '+' : ''}${pnl.toLocaleString()} (
+												{isPnlPos ? '+' : ''}
+												{pnlPct}%)
 											</span>
 										</div>
 									</div>
@@ -215,14 +273,28 @@ function PortfolioPage() {
 					})}
 				</div>
 
-				<div className={`mt-6 flex items-center justify-between rounded-2xl border px-5 py-4 ${isPnLPos ? 'border-emerald-500/10 bg-emerald-500/[0.04]' : 'border-rose-500/10 bg-rose-500/[0.04]'}`}>
+				<div
+					className={`mt-6 flex items-center justify-between rounded-2xl border px-5 py-4 ${isPnLPos ? 'border-emerald-500/10 bg-emerald-500/[0.04]' : 'border-rose-500/10 bg-rose-500/[0.04]'}`}
+				>
 					<div className='flex items-center gap-2'>
-						<DollarSign size={14} className={isPnLPos ? 'text-emerald-500' : 'text-rose-500'} aria-hidden='true' />
+						<DollarSign
+							size={14}
+							className={isPnLPos ? 'text-emerald-500' : 'text-rose-500'}
+							aria-hidden='true'
+						/>
 						<p className='text-sm text-slate-300'>Total unrealised P&L</p>
 					</div>
-					<div className={`flex items-center gap-2 font-bold tabular-nums ${isPnLPos ? 'text-emerald-400' : 'text-rose-400'}`}>
-						{isPnLPos ? <TrendingUp size={15} aria-hidden='true' /> : <TrendingDown size={15} aria-hidden='true' />}
-						{isPnLPos ? '+' : ''}${Math.abs(totalPnL).toLocaleString()} ({isPnLPos ? '+' : ''}{totalPnLPct}%)
+					<div
+						className={`flex items-center gap-2 font-bold tabular-nums ${isPnLPos ? 'text-emerald-400' : 'text-rose-400'}`}
+					>
+						{isPnLPos ? (
+							<TrendingUp size={15} aria-hidden='true' />
+						) : (
+							<TrendingDown size={15} aria-hidden='true' />
+						)}
+						{isPnLPos ? '+' : ''}${Math.abs(totalPnL).toLocaleString()} (
+						{isPnLPos ? '+' : ''}
+						{totalPnLPct}%)
 					</div>
 				</div>
 			</section>

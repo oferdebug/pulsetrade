@@ -3,12 +3,18 @@ import { Bell, ChevronDown } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { authClient } from '#/lib/auth-client';
+import {
+	getSessionBadge,
+	useDashboardSessionStore,
+} from '#/lib/dashboard/session';
 
 export default function AppTopbar() {
 	const navigate = useNavigate();
 	const { data: session } = authClient.useSession();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const menuRef = useRef<HTMLDivElement>(null);
+	const status = useDashboardSessionStore((state) => state.status);
+	const badge = getSessionBadge(status);
 
 	const userName = session?.user?.name || 'User';
 	const userEmail = session?.user?.email || '';
@@ -58,8 +64,10 @@ export default function AppTopbar() {
 			</div>
 
 			<div className='ml-4 flex shrink-0 items-center gap-3 text-sm'>
-				<span className='hidden shrink-0 whitespace-nowrap rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400 2xl:inline'>
-					Market Open
+				<span
+					className={`hidden shrink-0 whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold 2xl:inline ${badge.className}`}
+				>
+					{badge.label}
 				</span>
 
 				<button

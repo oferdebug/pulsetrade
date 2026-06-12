@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import {
 	ChevronLeft,
 	ChevronRight,
@@ -44,7 +44,9 @@ function MarketsPage() {
 	const [addedSymbol, setAddedSymbol] = useState<string | null>(null);
 
 	const addToWatchlist = useWatchlistStore((state) => state.addToWatchlist);
-	const removeFromWatchlist = useWatchlistStore((state) => state.removeFromWatchlist);
+	const removeFromWatchlist = useWatchlistStore(
+		(state) => state.removeFromWatchlist,
+	);
 	const isInWatchlist = useWatchlistStore((state) => state.isInWatchlist);
 
 	const filteredMarkets = marketsData.filter((market) => {
@@ -61,9 +63,15 @@ function MarketsPage() {
 	const sortedMarkets = [...filteredMarkets].sort((a, b) => {
 		if (search.sort === 'symbol') return a.symbol.localeCompare(b.symbol);
 		if (search.sort === 'price-desc')
-			return Number(b.price.replace('$', '').replace(',', '')) - Number(a.price.replace('$', '').replace(',', ''));
+			return (
+				Number(b.price.replace('$', '').replace(',', '')) -
+				Number(a.price.replace('$', '').replace(',', ''))
+			);
 		if (search.sort === 'price-asc')
-			return Number(a.price.replace('$', '').replace(',', '')) - Number(b.price.replace('$', '').replace(',', ''));
+			return (
+				Number(a.price.replace('$', '').replace(',', '')) -
+				Number(b.price.replace('$', '').replace(',', ''))
+			);
 		return 0;
 	});
 
@@ -74,7 +82,10 @@ function MarketsPage() {
 		currentPage * itemsPerPage,
 	);
 
-	function handleStarToggle(market: typeof marketsData[0], e: React.MouseEvent) {
+	function handleStarToggle(
+		market: (typeof marketsData)[0],
+		e: React.MouseEvent,
+	) {
 		e.preventDefault();
 		e.stopPropagation();
 		if (isInWatchlist(market.symbol)) {
@@ -123,24 +134,44 @@ function MarketsPage() {
 				<div className='flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
 					<div className='flex flex-col gap-3 md:flex-row'>
 						<div className='relative'>
-							<Search size={14} className='absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500' aria-hidden='true' />
+							<Search
+								size={14}
+								className='absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500'
+								aria-hidden='true'
+							/>
 							<input
 								type='text'
 								placeholder='Search symbol or name…'
 								className='w-full rounded-xl border border-white/5 bg-white/[0.03] py-2 pl-9 pr-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-blue-500/40 focus:bg-white/[0.05] focus:ring-4 focus:ring-blue-500/10 md:w-60'
 								value={search.query}
 								onChange={(e) =>
-									navigate({ search: (prev) => ({ ...prev, query: e.target.value, page: 1 }) })
+									navigate({
+										search: (prev) => ({
+											...prev,
+											query: e.target.value,
+											page: 1,
+										}),
+									})
 								}
 							/>
 						</div>
 						<div className='relative flex items-center'>
-							<SlidersHorizontal size={14} className='absolute left-3.5 text-slate-500' aria-hidden='true' />
+							<SlidersHorizontal
+								size={14}
+								className='absolute left-3.5 text-slate-500'
+								aria-hidden='true'
+							/>
 							<select
 								className='cursor-pointer appearance-none rounded-xl border border-white/5 bg-white/[0.03] py-2 pl-9 pr-8 text-sm text-slate-300 outline-none transition focus:border-blue-500/40 focus:ring-4 focus:ring-blue-500/10'
 								value={search.sort}
 								onChange={(e) =>
-									navigate({ search: (prev) => ({ ...prev, sort: e.target.value, page: 1 }) })
+									navigate({
+										search: (prev) => ({
+											...prev,
+											sort: e.target.value,
+											page: 1,
+										}),
+									})
 								}
 							>
 								<option value=''>Default</option>
@@ -158,7 +189,9 @@ function MarketsPage() {
 									key={s.value}
 									type='button'
 									onClick={() =>
-										navigate({ search: (prev) => ({ ...prev, sector: s.value, page: 1 }) })
+										navigate({
+											search: (prev) => ({ ...prev, sector: s.value, page: 1 }),
+										})
 									}
 									className={`cursor-pointer rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-all duration-150 ${
 										isActive
@@ -175,7 +208,8 @@ function MarketsPage() {
 
 				<div className='mt-5 mb-3 flex items-center justify-between'>
 					<p className='text-xs font-medium text-slate-500'>
-						{filteredMarkets.length} result{filteredMarkets.length !== 1 ? 's' : ''}
+						{filteredMarkets.length} result
+						{filteredMarkets.length !== 1 ? 's' : ''}
 					</p>
 				</div>
 
@@ -183,16 +217,28 @@ function MarketsPage() {
 					<div className='flex flex-col items-center gap-3 rounded-2xl border border-dashed border-white/10 py-14 text-center'>
 						<Search size={28} className='text-slate-600' aria-hidden='true' />
 						<p className='text-sm font-semibold text-white'>No results found</p>
-						<p className='text-xs text-slate-500'>Try a different symbol or clear filters.</p>
+						<p className='text-xs text-slate-500'>
+							Try a different symbol or clear filters.
+						</p>
 					</div>
 				) : view === 'list' ? (
 					<div className='overflow-hidden rounded-2xl border border-white/5'>
 						<div className='grid grid-cols-[1fr_auto_auto_auto_64px_40px] items-center gap-4 border-b border-white/5 px-4 py-2'>
-							<p className='text-[10px] font-semibold uppercase tracking-widest text-slate-600'>Asset</p>
-							<p className='w-20 text-right text-[10px] font-semibold uppercase tracking-widest text-slate-600'>Price</p>
-							<p className='w-16 text-right text-[10px] font-semibold uppercase tracking-widest text-slate-600'>Change</p>
-							<p className='hidden w-16 text-right text-[10px] font-semibold uppercase tracking-widest text-slate-600 sm:block'>Volume</p>
-							<p className='text-right text-[10px] font-semibold uppercase tracking-widest text-slate-600'>7D</p>
+							<p className='text-[10px] font-semibold uppercase tracking-widest text-slate-600'>
+								Asset
+							</p>
+							<p className='w-20 text-right text-[10px] font-semibold uppercase tracking-widest text-slate-600'>
+								Price
+							</p>
+							<p className='w-16 text-right text-[10px] font-semibold uppercase tracking-widest text-slate-600'>
+								Change
+							</p>
+							<p className='hidden w-16 text-right text-[10px] font-semibold uppercase tracking-widest text-slate-600 sm:block'>
+								Volume
+							</p>
+							<p className='text-right text-[10px] font-semibold uppercase tracking-widest text-slate-600'>
+								7D
+							</p>
 							<span />
 						</div>
 						{paginatedMarkets.map((market) => {
@@ -209,30 +255,49 @@ function MarketsPage() {
 								>
 									<div className='min-w-0'>
 										<p className='font-semibold text-white'>{market.symbol}</p>
-										<p className='truncate text-xs text-slate-500'>{market.name}</p>
+										<p className='truncate text-xs text-slate-500'>
+											{market.name}
+										</p>
 									</div>
-									<p className='w-20 text-right font-semibold tabular-nums text-white'>{market.price}</p>
-									<span className={`flex w-16 items-center justify-end gap-1 text-xs font-semibold tabular-nums ${isPos ? 'text-emerald-400' : 'text-rose-400'}`}>
+									<p className='w-20 text-right font-semibold tabular-nums text-white'>
+										{market.price}
+									</p>
+									<span
+										className={`flex w-16 items-center justify-end gap-1 text-xs font-semibold tabular-nums ${isPos ? 'text-emerald-400' : 'text-rose-400'}`}
+									>
 										<TrendIcon size={11} aria-hidden='true' />
 										{market.change}
 									</span>
-									<p className='hidden w-16 text-right text-xs tabular-nums text-slate-500 sm:block'>{market.volume ?? '—'}</p>
+									<p className='hidden w-16 text-right text-xs tabular-nums text-slate-500 sm:block'>
+										{market.volume ?? '—'}
+									</p>
 									<div className='flex justify-end'>
 										{market.sparkline && (
-											<Sparkline data={market.sparkline} positive={isPos} width={64} height={28} />
+											<Sparkline
+												data={market.sparkline}
+												positive={isPos}
+												width={64}
+												height={28}
+											/>
 										)}
 									</div>
 									<button
 										type='button'
 										onClick={(e) => handleStarToggle(market, e)}
-										aria-label={watched ? 'Remove from watchlist' : 'Add to watchlist'}
+										aria-label={
+											watched ? 'Remove from watchlist' : 'Add to watchlist'
+										}
 										className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-xl transition-all duration-200 ${
 											watched
 												? 'text-amber-400 hover:text-amber-300'
 												: 'text-slate-600 hover:text-slate-300 group-hover:text-slate-400'
 										} ${justAdded ? 'scale-125' : 'scale-100'}`}
 									>
-										<Star size={14} fill={watched ? 'currentColor' : 'none'} aria-hidden='true' />
+										<Star
+											size={14}
+											fill={watched ? 'currentColor' : 'none'}
+											aria-hidden='true'
+										/>
 									</button>
 								</Link>
 							);
@@ -255,33 +320,54 @@ function MarketsPage() {
 									<div className='flex items-start justify-between'>
 										<div>
 											<p className='font-bold text-white'>{market.symbol}</p>
-											<p className='mt-0.5 truncate text-xs text-slate-500'>{market.name}</p>
+											<p className='mt-0.5 truncate text-xs text-slate-500'>
+												{market.name}
+											</p>
 										</div>
 										<button
 											type='button'
 											onClick={(e) => handleStarToggle(market, e)}
-											aria-label={watched ? 'Remove from watchlist' : 'Add to watchlist'}
+											aria-label={
+												watched ? 'Remove from watchlist' : 'Add to watchlist'
+											}
 											className={`cursor-pointer rounded-lg p-1 transition-all duration-200 ${
-												watched ? 'text-amber-400' : 'text-slate-600 hover:text-slate-300'
+												watched
+													? 'text-amber-400'
+													: 'text-slate-600 hover:text-slate-300'
 											} ${justAdded ? 'scale-125' : 'scale-100'}`}
 										>
-											<Star size={14} fill={watched ? 'currentColor' : 'none'} aria-hidden='true' />
+											<Star
+												size={14}
+												fill={watched ? 'currentColor' : 'none'}
+												aria-hidden='true'
+											/>
 										</button>
 									</div>
 									<div className='mt-3 flex items-end justify-between'>
 										<div>
-											<p className='text-lg font-bold tabular-nums text-white'>{market.price}</p>
-											<span className={`flex items-center gap-1 text-xs font-semibold ${isPos ? 'text-emerald-400' : 'text-rose-400'}`}>
+											<p className='text-lg font-bold tabular-nums text-white'>
+												{market.price}
+											</p>
+											<span
+												className={`flex items-center gap-1 text-xs font-semibold ${isPos ? 'text-emerald-400' : 'text-rose-400'}`}
+											>
 												<TrendIcon size={11} aria-hidden='true' />
 												{market.change}
 											</span>
 										</div>
 										{market.sparkline && (
-											<Sparkline data={market.sparkline} positive={isPos} width={72} height={32} />
+											<Sparkline
+												data={market.sparkline}
+												positive={isPos}
+												width={72}
+												height={32}
+											/>
 										)}
 									</div>
 									{market.volume && (
-										<p className='mt-2 text-[10px] tabular-nums text-slate-600'>Vol: {market.volume}</p>
+										<p className='mt-2 text-[10px] tabular-nums text-slate-600'>
+											Vol: {market.volume}
+										</p>
 									)}
 								</Link>
 							);
@@ -295,7 +381,12 @@ function MarketsPage() {
 							type='button'
 							disabled={currentPage === 1}
 							onClick={() =>
-								navigate({ search: (prev) => ({ ...prev, page: Math.max(1, prev.page - 1) }) })
+								navigate({
+									search: (prev) => ({
+										...prev,
+										page: Math.max(1, prev.page - 1),
+									}),
+								})
 							}
 							className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-xl border border-white/5 bg-white/[0.03] text-slate-400 transition hover:border-white/10 hover:bg-white/[0.06] hover:text-white disabled:cursor-not-allowed disabled:opacity-40'
 							aria-label='Previous page'
@@ -303,14 +394,19 @@ function MarketsPage() {
 							<ChevronLeft size={14} aria-hidden='true' />
 						</button>
 						<p className='text-xs text-slate-500'>
-							Page <span className='font-semibold text-white'>{currentPage}</span> of{' '}
-							<span className='font-semibold text-white'>{Math.max(1, totalPages)}</span>
+							Page{' '}
+							<span className='font-semibold text-white'>{currentPage}</span> of{' '}
+							<span className='font-semibold text-white'>
+								{Math.max(1, totalPages)}
+							</span>
 						</p>
 						<button
 							type='button'
 							disabled={currentPage >= totalPages}
 							onClick={() =>
-								navigate({ search: (prev) => ({ ...prev, page: prev.page + 1 }) })
+								navigate({
+									search: (prev) => ({ ...prev, page: prev.page + 1 }),
+								})
 							}
 							className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-xl border border-white/5 bg-white/[0.03] text-slate-400 transition hover:border-white/10 hover:bg-white/[0.06] hover:text-white disabled:cursor-not-allowed disabled:opacity-40'
 							aria-label='Next page'

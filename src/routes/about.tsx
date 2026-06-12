@@ -10,12 +10,11 @@ function About() {
 			<section className='island-shell rounded-2xl p-6 sm:p-8'>
 				<p className='island-kicker mb-2'>About</p>
 				<h1 className='display-title mb-3 text-4xl font-bold text-(--sea-ink) sm:text-5xl'>
-					A small starter with room to grow.
+					PulseTrade Is An AI-Powered Trading Platform
 				</h1>
 				<p className='m-0 max-w-3xl text-base leading-8 text-(--sea-ink-soft)'>
-					TanStack Start gives you type-safe routing, server functions, and
-					modern SSR defaults. Use this as a clean foundation, then layer in
-					your own routes, styling, and add-ons.
+					PulseTrade Is An AI-Powered Trading Platform That Uses Machine
+					Learning To Analyze Market Data And Make Trading Decisions.
 				</p>
 			</section>
 		</main>

@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import {
 	ArrowDownUp,
 	ArrowRight,
@@ -16,18 +16,28 @@ export const Route = createFileRoute('/watchlist/')({
 	component: WatchListPage,
 });
 
-type SortKey = 'default' | 'change-desc' | 'change-asc' | 'price-desc' | 'alpha';
+type SortKey =
+	| 'default'
+	| 'change-desc'
+	| 'change-asc'
+	| 'price-desc'
+	| 'alpha';
 
 function WatchListPage() {
 	const items = useWatchlistStore((state) => state.items);
-	const removeFromWatchlist = useWatchlistStore((state) => state.removeFromWatchlist);
+	const removeFromWatchlist = useWatchlistStore(
+		(state) => state.removeFromWatchlist,
+	);
 	const [sort, setSort] = useState<SortKey>('default');
 	const [removing, setRemoving] = useState<string | null>(null);
 
 	const sorted = [...items].sort((a, b) => {
 		if (sort === 'alpha') return a.symbol.localeCompare(b.symbol);
 		if (sort === 'price-desc')
-			return Number(b.price.replace(/[$,]/g, '')) - Number(a.price.replace(/[$,]/g, ''));
+			return (
+				Number(b.price.replace(/[$,]/g, '')) -
+				Number(a.price.replace(/[$,]/g, ''))
+			);
 		const toNum = (c: string) => Number(c.replace('%', '').replace('+', ''));
 		if (sort === 'change-desc') return toNum(b.change) - toNum(a.change);
 		if (sort === 'change-asc') return toNum(a.change) - toNum(b.change);
@@ -39,8 +49,10 @@ function WatchListPage() {
 	const avgChange =
 		items.length === 0
 			? 0
-			: items.reduce((acc, i) => acc + Number(i.change.replace('%', '').replace('+', '')), 0) /
-			  items.length;
+			: items.reduce(
+					(acc, i) => acc + Number(i.change.replace('%', '').replace('+', '')),
+					0,
+				) / items.length;
 	const avgPositive = avgChange >= 0;
 
 	function handleRemove(symbol: string) {
@@ -62,7 +74,9 @@ function WatchListPage() {
 			<div className='flex items-end justify-between'>
 				<div>
 					<h1 className='text-2xl font-bold text-white'>Watchlist</h1>
-					<p className='mt-1 text-sm text-slate-400'>Track saved assets and monitor price movement.</p>
+					<p className='mt-1 text-sm text-slate-400'>
+						Track saved assets and monitor price movement.
+					</p>
 				</div>
 				{items.length > 0 && (
 					<button
@@ -80,25 +94,42 @@ function WatchListPage() {
 				<div className='grid grid-cols-3 gap-3'>
 					<div className='rounded-2xl border border-white/5 bg-white/[0.02] p-4'>
 						<p className='text-xs text-slate-500'>Tracked</p>
-						<p className='mt-1 text-2xl font-bold tabular-nums text-white'>{items.length}</p>
+						<p className='mt-1 text-2xl font-bold tabular-nums text-white'>
+							{items.length}
+						</p>
 					</div>
 					<div className='rounded-2xl border border-emerald-500/10 bg-emerald-500/[0.04] p-4'>
 						<p className='text-xs text-emerald-600'>Gainers</p>
-						<p className='mt-1 text-2xl font-bold tabular-nums text-emerald-400'>{gainers}</p>
+						<p className='mt-1 text-2xl font-bold tabular-nums text-emerald-400'>
+							{gainers}
+						</p>
 					</div>
 					<div className='rounded-2xl border border-rose-500/10 bg-rose-500/[0.04] p-4'>
 						<p className='text-xs text-rose-600'>Losers</p>
-						<p className='mt-1 text-2xl font-bold tabular-nums text-rose-400'>{losers}</p>
+						<p className='mt-1 text-2xl font-bold tabular-nums text-rose-400'>
+							{losers}
+						</p>
 					</div>
 				</div>
 			)}
 
 			{items.length > 0 && (
-				<div className={`flex items-center justify-between rounded-2xl border px-5 py-3 ${avgPositive ? 'border-emerald-500/10 bg-emerald-500/[0.04]' : 'border-rose-500/10 bg-rose-500/[0.04]'}`}>
-					<p className='text-xs text-slate-400'>Avg. daily change across watchlist</p>
-					<div className={`flex items-center gap-1.5 font-bold tabular-nums ${avgPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
-						{avgPositive ? <TrendingUp size={14} aria-hidden='true' /> : <TrendingDown size={14} aria-hidden='true' />}
-						{avgPositive ? '+' : ''}{avgChange.toFixed(2)}%
+				<div
+					className={`flex items-center justify-between rounded-2xl border px-5 py-3 ${avgPositive ? 'border-emerald-500/10 bg-emerald-500/[0.04]' : 'border-rose-500/10 bg-rose-500/[0.04]'}`}
+				>
+					<p className='text-xs text-slate-400'>
+						Avg. daily change across watchlist
+					</p>
+					<div
+						className={`flex items-center gap-1.5 font-bold tabular-nums ${avgPositive ? 'text-emerald-400' : 'text-rose-400'}`}
+					>
+						{avgPositive ? (
+							<TrendingUp size={14} aria-hidden='true' />
+						) : (
+							<TrendingDown size={14} aria-hidden='true' />
+						)}
+						{avgPositive ? '+' : ''}
+						{avgChange.toFixed(2)}%
 					</div>
 				</div>
 			)}
@@ -106,14 +137,20 @@ function WatchListPage() {
 			<section className='rounded-3xl border border-white/5 bg-white/[0.02] p-5 backdrop-blur-xl'>
 				<div className='mb-5 flex items-center justify-between'>
 					<div className='flex items-center gap-3'>
-						<h2 className='text-base font-semibold text-white'>Saved Symbols</h2>
+						<h2 className='text-base font-semibold text-white'>
+							Saved Symbols
+						</h2>
 						<span className='rounded-full bg-white/[0.06] px-2.5 py-0.5 text-xs font-semibold tabular-nums text-slate-400'>
 							{items.length}
 						</span>
 					</div>
 					{items.length > 1 && (
 						<div className='flex items-center gap-1.5 rounded-xl border border-white/5 bg-white/[0.03] p-1'>
-							<ArrowDownUp size={11} className='ml-1 text-slate-500' aria-hidden='true' />
+							<ArrowDownUp
+								size={11}
+								className='ml-1 text-slate-500'
+								aria-hidden='true'
+							/>
 							<select
 								value={sort}
 								onChange={(e) => setSort(e.target.value as SortKey)}
@@ -146,17 +183,30 @@ function WatchListPage() {
 										className='group flex items-center justify-between rounded-2xl border border-white/5 bg-white/[0.03] px-4 py-3 transition hover:border-white/10 hover:bg-white/[0.05]'
 									>
 										<div className='min-w-0'>
-											<p className='font-semibold text-white'>{market.symbol}</p>
-											<p className='truncate text-xs text-slate-500'>{market.name}</p>
+											<p className='font-semibold text-white'>
+												{market.symbol}
+											</p>
+											<p className='truncate text-xs text-slate-500'>
+												{market.name}
+											</p>
 										</div>
 
 										<div className='flex shrink-0 items-center gap-4'>
 											{market.sparkline && (
-												<Sparkline data={market.sparkline} positive={isPos} width={56} height={24} />
+												<Sparkline
+													data={market.sparkline}
+													positive={isPos}
+													width={56}
+													height={24}
+												/>
 											)}
 											<div className='w-20 text-right'>
-												<p className='font-semibold tabular-nums text-white'>{market.price}</p>
-												<span className={`flex items-center justify-end gap-1 text-xs font-semibold tabular-nums ${isPos ? 'text-emerald-400' : 'text-rose-400'}`}>
+												<p className='font-semibold tabular-nums text-white'>
+													{market.price}
+												</p>
+												<span
+													className={`flex items-center justify-end gap-1 text-xs font-semibold tabular-nums ${isPos ? 'text-emerald-400' : 'text-rose-400'}`}
+												>
 													<TrendIcon size={11} aria-hidden='true' />
 													{market.change}
 												</span>
@@ -185,7 +235,9 @@ function WatchListPage() {
 							<Star size={22} className='text-slate-500' aria-hidden='true' />
 						</div>
 						<div>
-							<h3 className='text-sm font-semibold text-white'>No symbols saved yet</h3>
+							<h3 className='text-sm font-semibold text-white'>
+								No symbols saved yet
+							</h3>
 							<p className='mt-1 text-xs text-slate-500'>
 								Add assets from the Markets page to start tracking them here.
 							</p>

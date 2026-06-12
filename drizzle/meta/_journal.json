@@ -8,6 +8,27 @@
       "when": 1779309070089,
       "tag": "0000_charming_firebird",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1779990964906,
+      "tag": "0001_common_veda",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1780003000000,
+      "tag": "0002_auth_camel_columns",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1780671120000,
+      "tag": "0003_alerts_workflow",
+      "breakpoints": true
     }
   ]
 }

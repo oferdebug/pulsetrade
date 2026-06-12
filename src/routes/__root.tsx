@@ -28,7 +28,17 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				content: 'width=device-width, initial-scale=1',
 			},
 			{
-				title: 'TanStack Start Starter',
+				title: 'PulseTrade',
+				description: 'PulseTrade Is An AI-Powered Trading Platform',
+			},
+			{
+				name: 'description',
+				content: 'PulseTrade Is An AI-Powered Trading Platform',
+			},
+			{
+				name: 'keywords',
+				content:
+					'PulseTrade, AI, Trading, Platform, Trading Platform, AI Trading Platform, Trading Bot, AI Trading Bot, Trading Signals, AI Trading Signals, Trading Strategies, AI Trading Strategies, Trading Education, AI Trading Education, Trading Tools, AI Trading Tools, Trading News, AI Trading News, Trading Analysis, AI Trading Analysis, Trading Alerts, AI Trading Alerts, Trading Notifications, AI Trading Notifications, Trading Alerts, AI Trading Alerts, Trading Notifications, AI Trading Notifications, Trading Alerts, AI Trading Alerts, Trading Notifications, AI Trading Notifications',
 			},
 		],
 		links: [
